@@ -1,9 +1,8 @@
 package com.jmmunoz.spr6webapp.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -13,6 +12,14 @@ public class Book {
     private Long id;
     private String title;
     private String isbn;
+
+    // Un libro puede tener varios autores y un autor puede tener varios libros (Many to Many)
+    // En la Join table lo que indicamos es que tenemos una tabla llamada author_book. Una parte de la join column,
+    // la referida a esta Entity, es book_id y la join inversa, la referida a la entity Author, es author_id
+    @ManyToMany
+    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name = "author_id"))
+    private Set<Author> authors;
 
     public Long getId() {
         return id;
@@ -36,5 +43,13 @@ public class Book {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 }
