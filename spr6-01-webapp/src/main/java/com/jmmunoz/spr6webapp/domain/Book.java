@@ -24,6 +24,10 @@ public class Book {
     // Si no inicializamos nos da un error en la clase BootstrapData
     private Set<Author> authors = new HashSet<>();
 
+    // Un editor puede publicar muchos libros y un libro puede ser publicado por un editor (Many to One)
+    @ManyToOne
+    private Publisher publisher;
+
     public Long getId() {
         return id;
     }
@@ -56,6 +60,14 @@ public class Book {
         this.authors = authors;
     }
 
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -63,6 +75,7 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", authors=" + authors +
+                ", publisher=" + publisher +
                 '}';
     }
 

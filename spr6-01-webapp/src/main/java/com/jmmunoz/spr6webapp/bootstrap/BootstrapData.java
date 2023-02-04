@@ -62,14 +62,6 @@ public class BootstrapData implements CommandLineRunner {
         ericSaved.getBooks().add(dddSaved);
         rodSaved.getBooks().add(noEJBSaved);
 
-        // Persistiendo la nueva asociación de Book a Author
-        authorRepository.save(ericSaved);
-        authorRepository.save(rodSaved);
-
-        System.out.println("In Bootstrap");
-        System.out.println("Author Count: " + authorRepository.count());
-        System.out.println("Book Count: " + bookRepository.count());
-
         // Informando editores
         Publisher addison = new Publisher();
         addison.setPublisherName("Addison Wesley");
@@ -77,7 +69,7 @@ public class BootstrapData implements CommandLineRunner {
         addison.setCity("Reading");
         addison.setState("Massachusets");
         addison.setZipCode("12345");
-        publisherRepository.save(addison);
+        Publisher addisonSaved = publisherRepository.save(addison);
 
         Publisher wiley = new Publisher();
         wiley.setPublisherName("Addison Wesley");
@@ -85,8 +77,22 @@ public class BootstrapData implements CommandLineRunner {
         wiley.setCity("New York");
         wiley.setState("New York");
         wiley.setZipCode("07030");
-        publisherRepository.save(wiley);
+        Publisher wileySaved = publisherRepository.save(wiley);
 
+        // Asociación entre books y publishers
+        dddSaved.setPublisher(addisonSaved);
+        noEJBSaved.setPublisher(wileySaved);
+
+        // Persistiendo la nueva asociación de Book a Author
+        authorRepository.save(ericSaved);
+        authorRepository.save(rodSaved);
+        // Persistiendo la nueva asociación de Boot a Publisher
+        bookRepository.save(dddSaved);
+        bookRepository.save(noEJBSaved);
+
+        System.out.println("In Bootstrap");
+        System.out.println("Author Count: " + authorRepository.count());
+        System.out.println("Book Count: " + bookRepository.count());
         System.out.println("Publisher Count: " + publisherRepository.count());
     }
 }
