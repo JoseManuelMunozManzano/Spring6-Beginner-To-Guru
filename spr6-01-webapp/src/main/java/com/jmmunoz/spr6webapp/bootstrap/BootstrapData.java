@@ -56,11 +56,13 @@ public class BootstrapData implements CommandLineRunner {
         Author rodSaved = authorRepository.save(rod);
         Book noEJBSaved = bookRepository.save(noEJB);
 
-        // Asociaciones entre authors y books
+        // Asociaciones entre authors y books y entre books y authors
         // Esta instrucción da error si no inicializamos, en la clase Book y Author el Set, porque tenemos id, pero
         // Book vale null, y nos aparece un error NullPointerException
         ericSaved.getBooks().add(dddSaved);
         rodSaved.getBooks().add(noEJBSaved);
+        dddSaved.getAuthors().add(ericSaved);
+        noEJBSaved.getAuthors().add(rodSaved);
 
         // Informando editores
         Publisher addison = new Publisher();
