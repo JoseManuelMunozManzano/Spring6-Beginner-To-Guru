@@ -2,6 +2,7 @@ package com.jmmunoz.spr6webapp.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,7 +18,8 @@ public class Author {
     // Un autor puede tener varios libros y un libro puede tener varios autores (Many to Many)
     // Es mejor usar Set que List porque cada Book debería ser un item unique y un List permite elementos duplicados
     @ManyToMany(mappedBy = "authors")
-    private Set<Book> books;
+    // Si no inicializamos nos da un error en la clase BootstrapData
+    private Set<Book> books = new HashSet<>();
 
     public Long getId() {
         return id;
