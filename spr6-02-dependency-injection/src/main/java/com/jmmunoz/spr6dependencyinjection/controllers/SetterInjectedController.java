@@ -2,6 +2,7 @@ package com.jmmunoz.spr6dependencyinjection.controllers;
 
 import com.jmmunoz.spr6dependencyinjection.services.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 // Inyección de Dependencias CON Spring
@@ -12,11 +13,20 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class SetterInjectedController {
 
-    // Es obligatorio indicar a Spring que debe inyectar la dependencia.
-    // Podemos anotar la property o el setter con la anotación @Autowired
-    @Autowired
+    //@Autowired
+    //@Qualifier("setterGreetingBean")
     private GreetingService greetingService;
 
+    // ERROR ANTERIOR: Para usar inyección usando setter, @Autowired debe estar en el setter, porque si está en
+    // la property se hará una inyección usando properties.
+    // Esto se puede comprobar descomentando el @Autowired y el @Qualifier del property y comentando el del setter,
+    // y con un debug dentro del setter ver que no accedemos dentro.
+    //
+    // Es obligatorio indicar a Spring que debe inyectar la dependencia utilizando la anotación @Autowired en el setter
+    //
+    // Indicamos el nombre concreto del bean que queremos inyectar utilizando @Qualifier, en el setter.
+    @Autowired
+    @Qualifier("setterGreetingBean")
     public void setGreetingService(GreetingService greetingService) {
         this.greetingService = greetingService;
     }

@@ -1,6 +1,7 @@
 package com.jmmunoz.spr6dependencyinjection.controllers;
 
 import com.jmmunoz.spr6dependencyinjection.services.GreetingService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 // Inyección de Dependencias CON Spring
@@ -14,8 +15,12 @@ public class ConstructorInjectedController {
     private final GreetingService greetingService;
 
     // Solo puede instanciarse esta clase si se pasa GreetingService (no es posible NullPointerException)
-    // Siendo ahora un componente Spring, Spring SABE que debe inyectar una clase que implemente GreetingService
-    public ConstructorInjectedController(GreetingService greetingService) {
+    // Siendo ahora un componente Spring, Spring SABE que debe inyectar una clase que implemente GreetingService.
+    //
+    // Ahora mismo se está inyectando por defecto la implementación de GreetingService que tiene la anotación @Primary.
+    // Para poder seleccionar por completo que implementación queremos inyectar se usa la anotación @Qualifier y
+    // se indica el nombre de la clase con la primera letra siempre en minúscula.
+    public ConstructorInjectedController(@Qualifier("greetingServiceImpl") GreetingService greetingService) {
         this.greetingService = greetingService;
     }
 
